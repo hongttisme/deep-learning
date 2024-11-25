@@ -7,6 +7,7 @@ import random
 from matplotlib import pyplot as plt
 import io
 
+
 # import model
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 
@@ -152,6 +153,16 @@ def upload_image():
     if file_path:
         uploaded_image_path = file_path
         img = cv2.imread(file_path)
+        
+        height,width,depth = img.shape
+
+        if height > 1000 and width > 1000: 
+            img = cv2.resize(img, (1000,1000))
+        elif height > 1000 and width < 1000:
+            img = cv2.resize(img, (1000,width))
+        elif height < 1000 and width > 1000:
+            img = cv2.resize(img, (height,1000))    
+
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         img_pil = Image.fromarray(img)
         img_tk = ImageTk.PhotoImage(img_pil)
