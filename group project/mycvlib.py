@@ -47,7 +47,11 @@ def histogram(samples, number_of_groups, lower_bound, upper_bound):
 
 def open_image(file_path):
     image = Image.open(file_path)
-    image_3d_array = np.array(image)
+    image_3d_array = np.array(image, dtype=int)
+
+    if len(image_3d_array.shape) == 2:
+        image_3d_array = np.tile(image_3d_array[:, :, np.newaxis], (1, 1, 3))
+
     # plt.figure(figsize=(12, 12))
     # plt.subplot(1, 2, 1)
     # plt.imshow(image_3d_array)
